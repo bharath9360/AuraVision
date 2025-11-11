@@ -4,18 +4,20 @@ import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Naan inga irundhu tailwindcss plugin-a DELETE panniten
-
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        
+        // --- INDHA LINE THAAN PUDHUSA ADD PANNIRUKKOM ---
+        // Unga Render URL-a inga add pannunga
+        allowedHosts: ['auravision-67ja.onrender.com'], 
+        
       },
       plugins: [
         react(),
-        // Inga irundha tailwindcss() line-a delete panniten
       ],
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
