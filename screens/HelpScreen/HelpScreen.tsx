@@ -1,30 +1,33 @@
+// screens/HelpScreen.tsx
 
 import React, { useState } from 'react';
-import { Page } from '../types';
-import { Icon } from '../components/Icon';
+import { Page } from '../../types';
+import { Icon } from '../../components/Icon';
+import './HelpScreen.css'; // <-- PUDHU CSS FILE-A INGA IMPORT PANNIRUKKOM
 
 interface HelpScreenProps {
   setPage: (page: Page) => void;
 }
 
+// AccordionItem component-a ingaye update pannidalam
 const AccordionItem: React.FC<{ title: string; icon: string; children: React.ReactNode }> = ({ title, icon, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-iris-surface rounded-xl overflow-hidden transition-all duration-300">
+    <div className="hs-accordion-item">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center text-left p-4 focus:outline-none focus:bg-iris-surface-light"
+        className="hs-accordion-button"
         aria-expanded={isOpen}
       >
-        <div className="flex items-center">
-          <Icon name={icon} className="w-6 h-6 mr-4 text-iris-primary-cyan" />
-          <span className="font-semibold text-iris-text-primary">{title}</span>
+        <div className="hs-accordion-label">
+          <Icon name={icon} className="hs-accordion-icon" />
+          <span className="hs-accordion-title">{title}</span>
         </div>
-        <Icon name="arrowRight" className={`w-5 h-5 text-iris-text-secondary transition-transform duration-300 ${isOpen ? 'transform rotate-90' : ''}`} />
+        <Icon name="arrowRight" className={`hs-arrow-icon ${isOpen ? 'hs-arrow-icon-open' : ''}`} />
       </button>
       {isOpen && (
-        <div className="p-4 border-t border-iris-surface-light text-iris-text-secondary space-y-2">
+        <div className="hs-accordion-content">
           {children}
         </div>
       )}
@@ -34,15 +37,15 @@ const AccordionItem: React.FC<{ title: string; icon: string; children: React.Rea
 
 export const HelpScreen: React.FC<HelpScreenProps> = ({ setPage }) => {
   return (
-    <div className="min-h-screen bg-iris-bg flex flex-col p-4 md:p-6 text-iris-text-primary">
-      <header className="relative flex items-center justify-center py-4">
-        <button onClick={() => setPage(Page.IMPAIRED_LOGIN)} className="absolute left-0 top-1/2 -translate-y-1/2">
-          <Icon name="arrowLeft" className="w-6 h-6" />
+    <div className="hs-container">
+      <header className="hs-header">
+        <button onClick={() => setPage(Page.IMPAIRED_LOGIN)} className="hs-back-button">
+          <Icon name="arrowLeft" className="hs-back-button-icon" />
         </button>
-        <h1 className="text-2xl font-bold text-center">Help & Support</h1>
+        <h1 className="hs-title">Help & Support</h1>
       </header>
 
-      <main className="flex-grow overflow-y-auto space-y-4 mt-4">
+      <main className="hs-main">
         <AccordionItem title="About Your IRIS Glass" icon="glasses">
           <p><strong>Powering On/Off:</strong> Press and hold the power button on the right arm of the glasses for 3 seconds.</p>
           <p><strong>Charging:</strong> Use the included USB-C cable to charge your device. A full charge takes about 90 minutes.</p>
@@ -63,8 +66,8 @@ export const HelpScreen: React.FC<HelpScreenProps> = ({ setPage }) => {
 
         <AccordionItem title="Contact Support" icon="speaker">
            <p>If you need more assistance, our support team is here to help.</p>
-           <p><strong>Email:</strong> <a href="mailto:bharathkkbharath3@gmail.com" className="text-iris-primary-cyan underline">bharathkkbharath3@gmail.com</a>, <a href="mailto:jumanaafra301@gamil.com" className="text-iris-primary-cyan underline">jumanaafra301@gamil.com</a></p>
-           <p><strong>Phone:</strong> <a href="tel:+919360294463" className="text-iris-primary-cyan underline">+91 9360294463</a>, <a href="tel:+917094978520" className="text-iris-primary-cyan underline">+91 7094978520</a></p>
+           <p><strong>Email:</strong> <a href="mailto:bharathkkbharath3@gmail.com">bharathkkbharath3@gmail.com</a>, <a href="mailto:jumanaafra301@gamil.com">jumanaafra301@gamil.com</a></p>
+           <p><strong>Phone:</strong> <a href="tel:+919360294463">+91 9360294463</a>, <a href="tel:+917094978520">+91 7094978520</a></p>
         </AccordionItem>
       </main>
     </div>

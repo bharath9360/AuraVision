@@ -1,7 +1,9 @@
+// screens/RegistrationScreen.tsx
 
 import React, { useState } from 'react';
-import { Page } from '../types';
-import { Icon } from '../components/Icon';
+import { Page } from '../../types';
+import { Icon } from '../../components/Icon';
+import './RegistrationScreen.css'; // <-- PUDHU CSS FILE-A INGA IMPORT PANNIRUKKOM
 
 interface RegistrationScreenProps {
   setPage: (page: Page) => void;
@@ -41,7 +43,6 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({ setPage 
     
     setIsLoading(true);
 
-    // Simulate checking for existing user and creating account
     setTimeout(() => {
         const existingUser = localStorage.getItem('registeredUser');
         if (existingUser) {
@@ -63,35 +64,38 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({ setPage 
   };
 
   return (
-    <div className="min-h-screen bg-iris-bg flex flex-col items-center p-4 sm:p-6">
-      <header className="w-full max-w-sm relative flex items-center justify-center py-4 mt-4">
-        <button onClick={() => setPage(Page.IMPAIRED_LOGIN)} className="absolute left-0 top-1/2 -translate-y-1/2">
-            <Icon name="arrowLeft" className="w-6 h-6" />
+    <div className="reg-container">
+      <header className="reg-header">
+        <button onClick={() => setPage(Page.IMPAIRED_LOGIN)} className="reg-back-button">
+            <Icon name="arrowLeft" className="reg-back-button-icon" />
         </button>
-        <h1 className="text-2xl sm:text-3xl font-bold text-iris-text-primary">Create Account</h1>
+        <h1 className="reg-title">Create Account</h1>
       </header>
       
-      <p className="w-full max-w-sm text-iris-text-secondary mt-1 mb-8 text-center">
+      <p className="reg-subtitle">
         Enter your details to start your journey with IRIS.
       </p>
 
-      <div className="w-full max-w-sm">
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium text-iris-text-secondary">Full Name</label>
-            <input type="text" placeholder="Alex Ray" value={fullName} onChange={(e) => setFullName(e.target.value)} disabled={isLoading} className="w-full bg-iris-surface p-4 rounded-xl mt-1 focus:outline-none focus:ring-2 focus:ring-iris-primary-blue" />
+      <div className="reg-form">
+        <div className="reg-input-fields-group">
+          
+          <div className="reg-input-group">
+            <label className="reg-label">Full Name</label>
+            <input type="text" placeholder="Alex Ray" value={fullName} onChange={(e) => setFullName(e.target.value)} disabled={isLoading} className="reg-input-field" />
           </div>
-          <div>
-            <label className="text-sm font-medium text-iris-text-secondary">Email Address</label>
-            <input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading} className="w-full bg-iris-surface p-4 rounded-xl mt-1 focus:outline-none focus:ring-2 focus:ring-iris-primary-blue" />
+          
+          <div className="reg-input-group">
+            <label className="reg-label">Email Address</label>
+            <input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading} className="reg-input-field" />
           </div>
-          <div>
-            <label className="text-sm font-medium text-iris-text-secondary">Password</label>
-            <div className="relative">
+          
+          <div className="reg-input-group">
+            <label className="reg-label">Password</label>
+            <div className="reg-password-wrapper">
               <input 
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Minimum 8 characters" 
-                className="w-full bg-iris-surface p-4 pr-12 rounded-xl mt-1 focus:outline-none focus:ring-2 focus:ring-iris-primary-blue" 
+                className="reg-input-field" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
@@ -99,20 +103,20 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({ setPage 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 flex items-center pr-4 text-iris-text-secondary"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                className="reg-password-toggle"
               >
-                <Icon name={showPassword ? 'eyeSlash' : 'eye'} className="w-6 h-6" />
+                <Icon name={showPassword ? 'eyeSlash' : 'eye'} className="reg-password-toggle-icon" />
               </button>
             </div>
           </div>
-          <div>
-            <label className="text-sm font-medium text-iris-text-secondary">Confirm Password</label>
-            <div className="relative">
+          
+          <div className="reg-input-group">
+            <label className="reg-label">Confirm Password</label>
+            <div className="reg-password-wrapper">
               <input 
                 type={showConfirmPassword ? 'text' : 'password'}
                 placeholder="Re-enter your password" 
-                className="w-full bg-iris-surface p-4 pr-12 rounded-xl mt-1 focus:outline-none focus:ring-2 focus:ring-iris-primary-blue" 
+                className="reg-input-field" 
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 disabled={isLoading}
@@ -120,35 +124,35 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({ setPage 
                <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute inset-y-0 right-0 flex items-center pr-4 text-iris-text-secondary"
-                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                className="reg-password-toggle"
               >
-                <Icon name={showConfirmPassword ? 'eyeSlash' : 'eye'} className="w-6 h-6" />
+                <Icon name={showConfirmPassword ? 'eyeSlash' : 'eye'} className="reg-password-toggle-icon" />
               </button>
             </div>
           </div>
-          <div>
-            <label className="text-sm font-medium text-iris-text-secondary">Device ID</label>
-            <input type="text" placeholder="Enter your IRIS Glass Device ID" value={deviceId} onChange={(e) => setDeviceId(e.target.value)} disabled={isLoading} className="w-full bg-iris-surface p-4 rounded-xl mt-1 focus:outline-none focus:ring-2 focus:ring-iris-primary-blue" />
+          
+          <div className="reg-input-group">
+            <label className="reg-label">Device ID</label>
+            <input type="text" placeholder="Enter your IRIS Glass Device ID" value={deviceId} onChange={(e) => setDeviceId(e.target.value)} disabled={isLoading} className="reg-input-field" />
           </div>
         </div>
 
-        {error && <p className="text-iris-accent-red text-sm text-center mt-4">{error}</p>}
+        {error && <p className="reg-error-message">{error}</p>}
 
         <button
           onClick={handleCreateAccount}
           disabled={isLoading}
-          className="w-full bg-iris-accent-yellow text-black font-bold py-4 rounded-full mt-8 transition-transform transform hover:scale-105 disabled:opacity-70 disabled:scale-100"
+          className="reg-submit-button"
         >
           {isLoading ? 'Creating Account...' : 'Create Account'}
         </button>
 
-        <div className="text-center mt-8">
-          <p className="text-iris-text-secondary">
+        <div className="reg-login-text">
+          <p>
             Already have an account?{' '}
             <button
               onClick={() => setPage(Page.IMPAIRED_LOGIN)}
-              className="font-semibold text-iris-primary-blue hover:underline"
+              className="reg-login-link"
             >
               Log In
             </button>

@@ -1,7 +1,10 @@
+// screens/GuideAiChatScreen.tsx
+
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from '@google/genai';
-import { Page, Message } from '../types';
-import { Icon } from '../components/Icon';
+import { Page, Message } from '../../types';
+import { Icon } from '../../components/Icon';
+import './GuideAiChatScreen.css'; // <-- PUDHU CSS FILE-A INGA IMPORT PANNIRUKKOM
 
 interface GuideAiChatScreenProps {
   setPage: (page: Page) => void;
@@ -15,6 +18,7 @@ export const GuideAiChatScreen: React.FC<GuideAiChatScreenProps> = ({ setPage })
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
+  // Note: API_KEY illana idhu fail aagum. .env.local file-a check pannikonga.
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   useEffect(() => {
@@ -70,46 +74,46 @@ export const GuideAiChatScreen: React.FC<GuideAiChatScreenProps> = ({ setPage })
   };
 
   return (
-    <div className="min-h-screen bg-iris-bg flex flex-col text-iris-text-primary">
-      <header className="relative flex items-center justify-center p-4">
-        <button onClick={() => setPage(Page.GUIDE_MAIN)} className="absolute left-4 top-1/2 -translate-y-1/2">
-            <Icon name="arrowLeft" className="w-6 h-6" />
+    <div className="gac-container">
+      <header className="gac-header">
+        <button onClick={() => setPage(Page.GUIDE_MAIN)} className="gac-back-button">
+            <Icon name="arrowLeft" className="gac-back-button-icon" />
         </button>
-        <div className="text-center">
-          <h1 className="text-xl font-bold">AI Assistant</h1>
+        <div>
+          <h1 className="gac-title">AI Assistant</h1>
         </div>
       </header>
 
-      <main className="flex-grow overflow-y-auto px-4 space-y-4">
+      <main className="gac-chat-container">
         {messages.map((msg, index) => (
-          <div key={index} className={`flex items-start gap-3 ${msg.sender === 'You' ? 'justify-end' : ''}`}>
+          <div key={index} className={`chat-message-row ${msg.sender === 'You' ? 'chat-message-row-user' : ''}`}>
              {msg.sender === 'AI Assistant' && (
-                <div className="w-10 h-10 bg-iris-surface rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="sparkles" className="w-6 h-6 text-iris-primary-cyan"/>
+                <div className="gac-avatar-ai">
+                    <Icon name="sparkles" className="gac-avatar-ai-icon"/>
                 </div>
              )}
-             <div className={`max-w-xs sm:max-w-sm md:max-w-md ${msg.sender === 'You' ? 'text-right' : ''}`}>
-                <div className={`flex items-baseline gap-2 ${msg.sender === 'You' ? 'justify-end' : ''}`}>
-                    <p className="font-bold">{msg.sender}</p>
-                    <p className="text-xs text-iris-text-secondary">{msg.timestamp}</p>
+             <div className={`chat-message-content ${msg.sender === 'You' ? 'chat-message-content-user' : ''}`}>
+                <div className={`chat-message-header ${msg.sender === 'You' ? 'chat-message-header-user' : ''}`}>
+                    <p className="chat-sender-name">{msg.sender}</p>
+                    <p className="chat-timestamp">{msg.timestamp}</p>
                 </div>
-                 <p className={`mt-1 p-3 rounded-2xl ${msg.sender === 'You' ? 'bg-iris-primary-blue' : 'bg-iris-surface'}`}>{msg.text}</p>
+                 <p className={`chat-bubble ${msg.sender === 'You' ? 'chat-bubble-user' : 'chat-bubble-ai'}`}>{msg.text}</p>
              </div>
              {msg.sender === 'You' && (
-                 <img src="https://picsum.photos/seed/guide/40/40" alt="User avatar" className="w-10 h-10 rounded-full flex-shrink-0"/>
+                 <img src="https://picsum.photos/seed/guide/40/40" alt="User avatar" className="chat-avatar-user"/>
              )}
           </div>
         ))}
         {isLoading && (
-            <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-iris-surface rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="sparkles" className="w-6 h-6 text-iris-primary-cyan"/>
+            <div className="chat-message-row">
+                <div className="gac-avatar-ai">
+                    <Icon name="sparkles" className="gac-avatar-ai-icon"/>
                 </div>
-                <div className="mt-1 p-3 rounded-2xl bg-iris-surface">
-                    <div className="flex items-center space-x-1">
-                        <div className="w-2 h-2 bg-iris-text-secondary rounded-full animate-pulse"></div>
-                        <div className="w-2 h-2 bg-iris-text-secondary rounded-full animate-pulse [animation-delay:0.2s]"></div>
-                        <div className="w-2 h-2 bg-iris-text-secondary rounded-full animate-pulse [animation-delay:0.4s]"></div>
+                <div className="loading-bubble">
+                    <div className="loading-dots">
+                        <div className="loading-dot loading-dot-1"></div>
+                        <div className="loading-dot loading-dot-2"></div>
+                        <div className="loading-dot loading-dot-3"></div>
                     </div>
                 </div>
             </div>
@@ -117,23 +121,23 @@ export const GuideAiChatScreen: React.FC<GuideAiChatScreenProps> = ({ setPage })
         <div ref={chatEndRef} />
       </main>
 
-      <footer className="sticky bottom-0 bg-iris-surface-light/80 backdrop-blur-sm p-4">
-        <div className="flex items-center space-x-2">
+      <footer className="gac-footer">
+        <div className="gac-input-container">
             <textarea
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask for assistance..."
                 rows={1}
-                className="flex-grow bg-iris-surface p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-iris-primary-blue resize-none"
+                className="gac-textarea"
                 disabled={isLoading}
             />
             <button
                 onClick={handleSendMessage}
                 disabled={isLoading || !inputText.trim()}
-                className="w-12 h-12 bg-iris-primary-blue rounded-full flex items-center justify-center text-white flex-shrink-0 disabled:opacity-50"
+                className="gac-send-button"
             >
-                <Icon name="paperAirplane" className="w-6 h-6"/>
+                <Icon name="paperAirplane" className="gac-send-button-icon"/>
             </button>
         </div>
       </footer>
