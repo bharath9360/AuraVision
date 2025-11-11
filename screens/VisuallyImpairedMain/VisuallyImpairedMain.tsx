@@ -1,7 +1,10 @@
+// screens/VisuallyImpairedMain.tsx
+
 import React, { useState, useEffect, useRef } from 'react';
-import { Page, Message } from '../types';
-import { Icon } from '../components/Icon';
-import { GoogleGenAI } from '@google/genai';
+import { Page, Message } from '../../types';
+import { Icon } from '../../components/Icon';
+// import { GoogleGenAI } from '@google/genai'; // Original code had this, but mock is used
+import './VisuallyImpairedMain.css'; // <-- PUDHU CSS FILE-A INGA IMPORT PANNIRUKKOM
 
 // Mock service for Gemini API
 const mockGeminiService = {
@@ -79,64 +82,64 @@ export const VisuallyImpairedMain: React.FC<VisuallyImpairedMainProps> = ({ setP
   };
 
   return (
-    <div className="min-h-screen bg-iris-bg flex flex-col text-iris-text-primary">
-      <header className="flex justify-between items-center p-4">
-        <h1 className="text-xl font-bold">IRIS</h1>
-        <div className="flex items-center space-x-4 text-iris-text-secondary">
-          <span>🔋</span>
+    <div className="vim-container">
+      <header className="vim-header">
+        <h1 className="vim-header-title">IRIS</h1>
+        <div className="vim-header-icons">
+          <span>🔋</span> {/* Battery Icon */}
           <button onClick={() => setPage(Page.SETTINGS)}>
-            <Icon name="settings" className="w-6 h-6"/>
+            <Icon name="settings" className="vim-icon-settings"/>
           </button>
-          <span>📶</span>
+          <span>📶</span> {/* Wifi Icon */}
         </div>
       </header>
 
-      <div className="relative flex-shrink-0 h-64 bg-gray-800 rounded-3xl m-4 overflow-hidden">
-        <img src="https://picsum.photos/400/300?blur=2" alt="Blurred background" className="w-full h-full object-cover"/>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center backdrop-blur-sm">
-            <div className="relative w-24 h-24">
-                <div className="absolute inset-0 border-2 border-white/20 rounded-full animate-ping"></div>
-                <div className="absolute inset-2 border-2 border-white/20 rounded-full animate-ping animation-delay-300"></div>
-                <Icon name="eye" className="w-16 h-16 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      <div className="vision-active-container">
+        <img src="https://picsum.photos/400/300?blur=2" alt="Blurred background" className="vision-active-bg-img"/>
+        <div className="vision-active-overlay">
+            <div className="vision-active-pulse-container">
+                <div className="vision-active-pulse-ring vision-active-pulse-ring-1"></div>
+                <div className="vision-active-pulse-ring vision-active-pulse-ring-2"></div>
+                <Icon name="eye" className="vision-active-eye-icon" />
             </div>
-            <p className="mt-4 text-lg font-semibold">AI Vision Active</p>
+            <p className="vision-active-text">AI Vision Active</p>
         </div>
       </div>
       
-      <main className="flex-grow overflow-y-auto px-4 space-y-4">
+      <main className="chat-container">
         {messages.map((msg, index) => (
-          <div key={index} className={`flex items-start gap-3 ${msg.sender === 'You' ? 'justify-end' : ''}`}>
+          <div key={index} className={`chat-message-row ${msg.sender === 'You' ? 'chat-message-row-user' : ''}`}>
              {msg.sender === 'IRIS' && (
-                <div className="w-10 h-10 bg-iris-surface rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="logo" className="w-6 h-6 text-iris-primary-cyan"/>
+                <div className="chat-avatar-iris">
+                    <Icon name="logo" className="chat-avatar-iris-icon"/>
                 </div>
              )}
-             <div className={`max-w-xs sm:max-w-sm md:max-w-md ${msg.sender === 'You' ? 'text-right' : ''}`}>
-                <div className={`flex items-baseline gap-2 ${msg.sender === 'You' ? 'justify-end' : ''}`}>
-                    <p className="font-bold">{msg.sender}</p>
-                    <p className="text-xs text-iris-text-secondary">{msg.timestamp}</p>
+             <div className={`chat-message-content ${msg.sender === 'You' ? 'chat-message-content-user' : ''}`}>
+                <div className={`chat-message-header ${msg.sender === 'You' ? 'chat-message-header-user' : ''}`}>
+                    <p className="chat-sender-name">{msg.sender}</p>
+                    <p className="chat-timestamp">{msg.timestamp}</p>
                 </div>
-                 <p className={`mt-1 p-3 rounded-2xl ${msg.sender === 'You' ? 'bg-iris-primary-blue' : 'bg-iris-surface'}`}>{msg.text}</p>
+                 <p className={`chat-bubble ${msg.sender === 'You' ? 'chat-bubble-user' : 'chat-bubble-iris'}`}>{msg.text}</p>
              </div>
              {msg.sender === 'You' && (
-                 <img src="https://picsum.photos/seed/user/40/40" alt="User avatar" className="w-10 h-10 rounded-full flex-shrink-0"/>
+                 <img src="https://picsum.photos/seed/user/40/40" alt="User avatar" className="chat-avatar-user"/>
              )}
           </div>
         ))}
         <div ref={chatEndRef} />
       </main>
 
-      <footer className="sticky bottom-0 bg-iris-bg p-4 flex items-center justify-center">
-        <div className="relative flex items-center justify-center w-full max-w-sm mx-auto">
+      <footer className="vim-footer">
+        <div className="footer-content">
             <button
                 onClick={handleSpeak}
                 disabled={isListening}
-                className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 ${isListening ? 'bg-blue-700 animate-pulse' : 'bg-iris-primary-blue'}`}
+                className={`speak-button ${isListening ? 'speak-button-listening' : 'speak-button-default'}`}
             >
-                <Icon name="microphone" className="w-10 h-10 text-white" />
+                <Icon name="microphone" className="speak-button-icon" />
             </button>
-            <p className="absolute bottom-0 translate-y-8 text-iris-text-secondary">Tap to Speak</p>
-            <button onClick={() => setPage(Page.EMERGENCY_ALERT)} className="absolute right-0 w-16 h-16 bg-iris-accent-red rounded-full flex items-center justify-center text-white font-bold">
+            <p className="speak-button-label">Tap to Speak</p>
+            <button onClick={() => setPage(Page.EMERGENCY_ALERT)} className="sos-button">
                 SOS
             </button>
         </div>

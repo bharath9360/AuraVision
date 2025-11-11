@@ -1,7 +1,10 @@
+// vite.config.ts
+
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite'; // <-- INDHA LINE IRUKKANUM
+
+// Naan inga irundhu tailwindcss plugin-a DELETE panniten
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
@@ -12,7 +15,7 @@ export default defineConfig(({ mode }) => {
       },
       plugins: [
         react(),
-        tailwindcss(), // <-- INDHA LINE IRUKKANUM
+        // Inga irundha tailwindcss() line-a delete panniten
       ],
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),

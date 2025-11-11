@@ -1,20 +1,20 @@
 
 import React, { useState } from 'react';
 import { Page, UserType } from './types';
-import { WelcomeScreen } from './screens/WelcomeScreen';
-import { LoginScreen } from './screens/LoginScreen';
-import { GuideLoginScreen } from './screens/GuideLoginScreen';
-import { PairingScreen } from './screens/PairingScreen';
-import { VisuallyImpairedMain } from './screens/VisuallyImpairedMain';
-import { EmergencyAlert } from './screens/EmergencyAlert';
-import { GuideMain } from './screens/GuideMain';
-import { AddPersonScreen } from './screens/AddPersonScreen';
-import { SettingsScreen } from './screens/SettingsScreen';
-import { RegistrationScreen } from './screens/RegistrationScreen';
-import { HelpScreen } from './screens/HelpScreen';
-import { GuideRegistrationScreen } from './screens/GuideRegistrationScreen';
-import { GuideAiChatScreen } from './screens/GuideAiChatScreen';
-import { HistoryScreen } from './screens/HistoryScreen';
+import { WelcomeScreen } from './screens/WelcomeScreen/WelcomeScreen';
+import { LoginScreen } from './screens/LoginScreen/LoginScreen';
+import { GuideLoginScreen } from './screens/GuideLoginScreen/GuideLoginScreen';
+import { PairingScreen } from './screens/PairingScreen/PairingScreen';
+import { VisuallyImpairedMain } from './screens/VisuallyImpairedMain/VisuallyImpairedMain';
+import { EmergencyAlert } from './screens/EmergencyAlert/EmergencyAlert';
+import { GuideMain } from './screens/GuideMain/GuideMain';
+import { AddPersonScreen } from './screens/AddPersonScreen/AddPersonScreen';
+import { SettingsScreen } from './screens/SettingsScreen/SettingsScreen';
+import { RegistrationScreen } from './screens/RegistrationScreen/RegistrationScreen';
+import { HelpScreen } from './screens/HelpScreen/HelpScreen';
+import { GuideRegistrationScreen } from './screens/RegistrationScreen/GuideRegistrationScreen';
+import { GuideAiChatScreen } from './screens/GuideAiChatScreen/GuideAiChatScreen';
+import { HistoryScreen } from './screens/HistoryScreen/HistoryScreen';
 
 const App: React.FC = () => {
   const [page, setPage] = useState<Page>(Page.WELCOME);
