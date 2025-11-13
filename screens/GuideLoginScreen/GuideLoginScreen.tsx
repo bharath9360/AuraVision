@@ -103,7 +103,16 @@ export const GuideLoginScreen: React.FC<GuideLoginScreenProps> = ({ setPage }) =
               <Icon name={showPassword ? 'eyeSlash' : 'eye'} className="gl-password-toggle-icon" />
             </button>
           </div>
-          <a href="#" className="gl-forgot-link">Forgot Password?</a>
+          
+          {/* === INTHA LINK-A BUTTON-A MAATHIRUKKEN === */}
+          <button 
+            onClick={() => setPage(Page.FORGOT_PASSWORD)} 
+            className="gl-forgot-link"
+          >
+            Forgot Password?
+          </button>
+          {/* =========================================== */}
+
         </div>
         
         {error && <p className="gl-error-message">{error}</p>}

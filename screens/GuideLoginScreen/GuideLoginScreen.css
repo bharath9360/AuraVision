@@ -86,13 +86,15 @@
   width: 1.5rem; /* w-6 */
   height: 1.5rem; /* h-6 */
 }
-
 .gl-forgot-link {
   font-size: 0.875rem; /* text-sm */
   color: #8E8E93; /* text-iris-text-secondary */
   float: right; /* float-right */
   margin-top: 0.5rem; /* mt-2 */
   text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 .gl-forgot-link:hover {
   text-decoration: underline; /* hover:underline */

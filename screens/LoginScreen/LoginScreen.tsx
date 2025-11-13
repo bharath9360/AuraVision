@@ -2,20 +2,18 @@
 import React, { useState } from 'react';
 import { Page } from '../../types';
 import { Icon } from '../../components/Icon';
-import { Toggle } from '../../components/Toggle';
+
 
 // screens/LoginScreen.tsx
 import './LoginScreen.css'; // <-- PUDHU CSS FILE-A INGA IMPORT PANNIRUKKOM
-// screens/LoginScreen.tsx
-import './LoginScreen.css'; // <-- CSS FILE-A INGA IMPORT PANNIRUKKOM
+// screens/LoginScreen.tsx // <-- CSS FILE-A INGA IMPORT PANNIRUKKOM
 
 interface LoginScreenProps {
   setPage: (page: Page) => void;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ setPage }) => {
-  const [voiceNarration, setVoiceNarration] = useState(true);
-  const [highContrast, setHighContrast] = useState(false);
+ 
 
   // State for authentication
   const [email, setEmail] = useState('');
@@ -54,29 +52,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ setPage }) => {
 
 
   return (
-    <div className={`login-container ${highContrast ? 'contrast-125' : ''}`}>
+    <div className="login-container">
       <div className="login-logo-container">
         <Icon name="logo" className="login-logo-icon" />
       </div>
       <h1 className="login-title">Welcome to IRIS</h1>
       <p className="login-subtitle">Enter your details to sign in or create an account.</p>
 
-      <div className="accessibility-box">
-        <div className="toggle-item">
-          <div className="toggle-label">
-            <span className="toggle-icon">🔊</span>
-            <span>Voice Narration</span>
-          </div>
-          <Toggle checked={voiceNarration} onChange={setVoiceNarration} />
-        </div>
-        <div className="toggle-item">
-          <div className="toggle-label">
-            <span className="toggle-icon">◑</span>
-            <span>High-Contrast Mode</span>
-          </div>
-          <Toggle checked={highContrast} onChange={setHighContrast} />
-        </div>
-      </div>
+  
+       
 
       <div className="form-container">
         <div className="input-group">

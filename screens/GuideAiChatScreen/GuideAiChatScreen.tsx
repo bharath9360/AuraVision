@@ -6,6 +6,11 @@ import { Page, Message } from '../../types';
 import { Icon } from '../../components/Icon';
 import './GuideAiChatScreen.css'; // <-- PUDHU CSS FILE-A INGA IMPORT PANNIRUKKOM
 
+// === INTHA LINE-A MAATHIRUKKEN ===
+// Mothalla API Key-a check panrom
+const apiKey = process.env.API_KEY;
+// ================================
+
 interface GuideAiChatScreenProps {
   setPage: (page: Page) => void;
 }
@@ -18,15 +23,43 @@ export const GuideAiChatScreen: React.FC<GuideAiChatScreenProps> = ({ setPage })
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // Note: API_KEY illana idhu fail aagum. .env.local file-a check pannikonga.
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // === INTHA LINE-GALA MAATHIRUKKEN ===
+  // API Key irundha mattum 'ai'-a create pannu, illana null aakidu
+  const ai = apiKey ? new GoogleGenAI({ apiKey: apiKey }) : null;
+  // ===================================
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+
+    // === INTHA CODE-A PUTHUSA SERTHURUKKEN ===
+    // Page load aanathum, API key illana error message kaatrom
+    if (!ai) {
+      // Message munnadiye illana mattum serkkanum
+      if (messages.length < 2) {
+          setMessages(prev => [
+            ...prev,
+            { 
+              sender: 'AI Assistant', 
+              text: "Error: GEMINI_API_KEY missing. I cannot connect to the AI. Please ask your app developer to fix this.", 
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+            }
+          ]);
+      }
+    }
+    // ==========================================
+
+  }, [messages, ai]); // 'ai'-a inga serthukonga
 
   const handleSendMessage = async () => {
-    if (!inputText.trim() || isLoading) return;
+    // === INTHA CHECK-A PUTHUSA SERTHURUKKEN ===
+    // 'ai' variable sariya create aagalana, function-a stop pannidrom
+    if (!inputText.trim() || isLoading || !ai) {
+      if (!ai) {
+        console.error("AI is not initialized. Check API Key.");
+      }
+      return;
+    }
+    // ==========================================
 
     const userMessage: Message = {
       sender: 'You',
@@ -130,11 +163,11 @@ export const GuideAiChatScreen: React.FC<GuideAiChatScreenProps> = ({ setPage })
                 placeholder="Ask for assistance..."
                 rows={1}
                 className="gac-textarea"
-                disabled={isLoading}
+                disabled={isLoading || !ai} // <-- Key illanalum disable pannidrom
             />
             <button
                 onClick={handleSendMessage}
-                disabled={isLoading || !inputText.trim()}
+                disabled={isLoading || !inputText.trim() || !ai} // <-- Key illanalum disable pannidrom
                 className="gac-send-button"
             >
                 <Icon name="paperAirplane" className="gac-send-button-icon"/>
