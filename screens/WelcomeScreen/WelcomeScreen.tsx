@@ -33,7 +33,8 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ setPage, setUserTy
           onClick={() => handleUserTypeSelect(UserType.VISUALLY_IMPAIRED)}
           className="action-button user-button"
         >
-          <Icon name="glasses" className="button-icon user-icon" />
+          {/* === ITHO, ITHULA "userCircle" ICON-A VECHITTEN === */}
+          <Icon name="userCircle" className="button-icon user-icon" />
           <span className="button-text">I am a Visually Impaired User</span>
         </button>
 
@@ -41,7 +42,8 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ setPage, setUserTy
           onClick={() => handleUserTypeSelect(UserType.GUIDE)}
           className="action-button guide-button"
         >
-          <Icon name="guide" className="button-icon guide-icon" />
+          {/* === ITHO, ITHULA "settings" (SLIDERS) ICON-A VECHITTEN === */}
+          <Icon name="settings" className="button-icon guide-icon" />
           <span className="button-text">I am a Guide</span>
         </button>
       </div>
